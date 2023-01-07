@@ -1,5 +1,8 @@
 package com.plural.conferencedemo.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +18,8 @@ public class Session {
     private String session_name;
     private String session_description;
     private String session_length;
-
-    @ManyToMany
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToMany()
     @JoinTable(
             name = "session_speakers",
             joinColumns = @JoinColumn(name = "session_id"),

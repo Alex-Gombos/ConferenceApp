@@ -2,6 +2,8 @@ package com.plural.conferencedemo.controller;
 
 import com.plural.conferencedemo.model.Session;
 import com.plural.conferencedemo.repo.SessionRepo;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +35,8 @@ public class SessionsController{
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+
     public void delete(@PathVariable Long id){
-        // TO DO: check for children records before deleting
         sessionRepo.deleteById(id);
     }
     @Deprecated
@@ -52,11 +54,12 @@ public class SessionsController{
     public void setSessionRepo(SessionRepo sessionRepo) {
         this.sessionRepo = sessionRepo;
     }
-    /*
-    TO DO: change the above delete request to use @DeleteMapping
-    @DeleteMapping
-    public void delete(@PathVariable Long id){
-        sessionRepo.deleteById(id);
-    }
-     */
+
+//    //TO DO: change the above delete request to use @DeleteMapping
+//    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+//    @DeleteMapping
+//    public void delete(@PathVariable Long id){
+//        sessionRepo.deleteById(id);
+//    }
+
 }
