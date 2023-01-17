@@ -33,7 +33,7 @@ public class Speaker {
 
     @ManyToMany(mappedBy = "speakers")
     @JsonIgnore// added to resolve serialization issues
-    private List<Session> sessions;
+    public List<Session> sessions;
 
     public List<Session> getSessions() {
         return sessions;

@@ -1,7 +1,9 @@
 package com.plural.conferencedemo.controller;
 
 import com.plural.conferencedemo.model.Session;
+import com.plural.conferencedemo.model.Speaker;
 import com.plural.conferencedemo.repo.SessionRepo;
+import com.plural.conferencedemo.repo.SpeakerRepo;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +19,9 @@ public class SessionsController{
     @Autowired
     private SessionRepo sessionRepo;
 
+    @Autowired
+    private SpeakerRepo speakerRepo;
+
     @GetMapping
     public List<Session> list(){
         return sessionRepo.findAll();
@@ -24,7 +29,7 @@ public class SessionsController{
 
     @GetMapping
     @RequestMapping("{id}")
-    Optional<Session> get(@PathVariable Long id){
+    Optional<Session> get(@PathVariable int id){
         return sessionRepo.findById(id);
     }
 
@@ -36,12 +41,17 @@ public class SessionsController{
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable int id){
         sessionRepo.deleteById(id);
+        Optional<Session> session = sessionRepo.findById(id);
+        List<Speaker> speakerList = speakerRepo.findAll();
+        for(Speaker speaker: speakerList){
+            speaker.sessions.remove(session);
+        }
     }
     @Deprecated
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public Session update(@PathVariable Long id, @RequestBody Session session){
+    public Session update(@PathVariable int id, @RequestBody Session session){
         Session existingSession = sessionRepo.getOne(id);
         BeanUtils.copyProperties(session, existingSession, "session_id");
         return sessionRepo.saveAndFlush(existingSession);

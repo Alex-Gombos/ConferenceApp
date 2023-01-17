@@ -14,10 +14,10 @@ public class Session {
     // otherwise that is done with @Column annotation
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long session_id;
+    private int session_id;
     private String session_name;
     private String session_description;
-    private String session_length;
+    private int session_length;
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToMany()
     @JoinTable(
@@ -25,7 +25,7 @@ public class Session {
             joinColumns = @JoinColumn(name = "session_id"),
             inverseJoinColumns = @JoinColumn(name = "speaker_id")
     )
-    private List<Speaker> speakers;
+    public List<Speaker> speakers;
 
     public Session() {
     }
@@ -38,11 +38,11 @@ public class Session {
         this.speakers = speakers;
     }
 
-    public Long getSession_id() {
+    public int getSession_id() {
         return session_id;
     }
 
-    public void setSession_id(Long session_id) {
+    public void setSession_id(int session_id) {
         this.session_id = session_id;
     }
 
@@ -62,11 +62,11 @@ public class Session {
         this.session_description = session_description;
     }
 
-    public String getSession_length() {
+    public int getSession_length() {
         return session_length;
     }
 
-    public void setSession_length(String session_length) {
+    public void setSession_length(int session_length) {
         this.session_length = session_length;
     }
 }
